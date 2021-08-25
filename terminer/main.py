@@ -72,9 +72,9 @@ def mine():
 
 REFRESH_COUNT_LIMIT = random.randrange(15, 25)
 
-name = "Andrey Stasevich"
-email = "andrey.stasevich@gmail.com"
-phone = "+4917636874685"
+name = "FirstName LastName"
+email = "UserEmail"
+phone = "UserPhone"
 
 url = "https://service.berlin.de/dienstleistung/327537/"
 
