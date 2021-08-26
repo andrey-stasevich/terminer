@@ -36,6 +36,7 @@ def mine():
     try:
         driver = None
         driver = firefox_driver()
+        driver.minimize_window()
 
         driver.get(url)
         prsr = parser.Parser(driver)
@@ -47,6 +48,7 @@ def mine():
                 raise LimitException("Counter limit reached!")
 
             if prsr.find():
+                driver.maximize_window()
                 notify(title='Terminer',
                        subtitle='Termin available!',
                        message='Check the Firefox by Selenium')
@@ -61,6 +63,7 @@ def mine():
     except LimitException:
         print("Error happened:" + traceback.format_exc())
     except Exception:
+        driver.maximize_window()
         time.sleep(90)
         print("Error happened:" + traceback.format_exc())
         notify(title='Terminer',
