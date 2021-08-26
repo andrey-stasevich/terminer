@@ -71,4 +71,4 @@ class Parser:
         return result
 
     def random_sleep(self):
-        time.sleep(random.randrange(4, 8) * 0.5)
+        time.sleep(random.randrange(2, 4) * 0.5)
