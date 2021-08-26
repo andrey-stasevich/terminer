@@ -20,7 +20,7 @@ def firefox_driver():
 
     options = {
         # 'proxy': {
-        #     'http': 'proxy_host:proxy_port',
+        #     'http': PROXY_URL,
         # }
     }
 
@@ -56,7 +56,7 @@ def mine():
                 prsr.get_termin()
                 time.sleep(60)
                 break
-            time.sleep(random.randint(60, 80))
+            time.sleep(random.randint(MIN_REFRESH_TIME, MAX_REFRESH_TIME))
             cnt += 1
     except LimitException:
         print("Error happened:" + traceback.format_exc())
@@ -70,13 +70,19 @@ def mine():
         driver.close()
 
 
+# App settings
 REFRESH_COUNT_LIMIT = random.randrange(15, 25)
+MIN_REFRESH_TIME = 60
+MAX_REFRESH_TIME = 80
+PROXY_URL = 'host:port'
 
-name = "FirstName LastName"
-email = "UserEmail"
-phone = "UserPhone"
+# User settings
+name = 'FirstName LastName'
+email = 'UserEmal'
+phone = 'UserPhone'
 
-url = "https://service.berlin.de/dienstleistung/327537/"
+# Termin url
+url = 'https://service.berlin.de/dienstleistung/327537/'
 
 while True:
     mine()
