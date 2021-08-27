@@ -2,6 +2,7 @@ import parser
 import random
 import time
 import traceback
+import yaml
 
 from fake_useragent import UserAgent
 from seleniumwire import webdriver
@@ -9,6 +10,11 @@ from seleniumwire import webdriver
 from notification import notify
 from exception import LimitException
 from exception import TooOftenException
+
+
+def load_config():
+    config_file = open('config.yaml')
+    return yaml.load(config_file, Loader=yaml.FullLoader)
 
 
 def firefox_driver():
@@ -21,7 +27,7 @@ def firefox_driver():
 
     options = {
         # 'proxy': {
-        #     'http': PROXY_URL,
+        #     'http': config['proxy_url'],
         # }
     }
 
@@ -35,16 +41,18 @@ def firefox_driver():
 def mine():
     cnt = 0
     try:
+        config = load_config()
+
         driver = None
         driver = firefox_driver()
         driver.minimize_window()
 
-        driver.get(url)
+        driver.get(config['termin_url'])
         prsr = parser.Parser(driver)
         prsr.start()
         while True:
             print("Counter: " + str(cnt))
-            if cnt > REFRESH_COUNT_LIMIT:
+            if cnt > random.randrange(config['min_refresh_count'], config['max_refresh_time']):
                 print("Refresh count limit reached! Restarting")
                 raise LimitException("Counter limit reached!")
 
@@ -59,7 +67,7 @@ def mine():
                 prsr.get_termin()
                 time.sleep(60)
                 break
-            time.sleep(random.randint(MIN_REFRESH_TIME, MAX_REFRESH_TIME))
+            time.sleep(random.randint(config['min_refresh_time'], config['max_refresh_time']))
             cnt += 1
     except LimitException:
         print("Error happened:" + traceback.format_exc())
@@ -77,20 +85,6 @@ def mine():
     finally:
         driver.close()
 
-
-# App settings
-REFRESH_COUNT_LIMIT = random.randrange(15, 25)
-MIN_REFRESH_TIME = 60
-MAX_REFRESH_TIME = 80
-PROXY_URL = 'host:port'
-
-# User settings
-name = 'FirstName LastName'
-email = 'UserEmal'
-phone = 'UserPhone'
-
-# Termin url
-url = 'https://service.berlin.de/dienstleistung/327537/'
 
 while True:
     mine()

@@ -1,0 +1,14 @@
+termin_url: 'https://service.berlin.de/dienstleistung/327537/'
+
+user:
+  email: UserEmail
+  name: FirstName LastName
+  phone: +4900000000000
+
+app:
+  min_refresh_time: 60 #sec
+  max_refresh_time: 80 #sec
+  min_refresh_count: 15
+  max_refresh_count: 25
+
+  proxy_url: 'host:port'

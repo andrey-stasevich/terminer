@@ -15,7 +15,7 @@ The app has very basic capanbilities to simulate real user usage - random delays
 You can minimize these settings if you have rotating proxy - you can specify `PROXY_URL` and uncomment its configuration in main.py.
 
 ## Configuration
-* Update your settings in the end of `main.py` and the appointment link you want to book
+* Change `user` section in `config.yaml` with your details
 
 ## Installation
 ```
