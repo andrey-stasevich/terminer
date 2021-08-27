@@ -42,6 +42,8 @@ def mine():
     cnt = 0
     try:
         config = load_config()
+        app_config = config['app']
+        user_config = config['user']
 
         driver = None
         driver = firefox_driver()
@@ -52,7 +54,7 @@ def mine():
         prsr.start()
         while True:
             print("Counter: " + str(cnt))
-            if cnt > random.randrange(config['min_refresh_count'], config['max_refresh_time']):
+            if cnt > random.randrange(app_config['min_refresh_count'], app_config['max_refresh_time']):
                 print("Refresh count limit reached! Restarting")
                 raise LimitException("Counter limit reached!")
 
@@ -62,12 +64,12 @@ def mine():
                        subtitle='Termin available!',
                        message='Check the Firefox by Selenium')
                 prsr.click_first_timeslot()
-                prsr.fill_in_data(name, email, phone)
+                prsr.fill_in_data(user_config['name'], user_config['email'], user_config['phone'])
                 prsr.agree_on_terms()
                 prsr.get_termin()
                 time.sleep(60)
                 break
-            time.sleep(random.randint(config['min_refresh_time'], config['max_refresh_time']))
+            time.sleep(random.randint(app_config['min_refresh_time'], app_config['max_refresh_time']))
             cnt += 1
     except LimitException:
         print("Error happened:" + traceback.format_exc())
