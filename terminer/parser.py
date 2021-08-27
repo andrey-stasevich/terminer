@@ -1,6 +1,7 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
-from limit_exception import LimitException
+from exception import LimitException
+from exception import TooOftenException
 
 import time
 import random
@@ -66,7 +67,7 @@ class Parser:
         except NoSuchElementException:
             print("Not found...")
             if "Zu viele Zugriffe" in self.driver.page_source:
-                raise LimitException("Too much attempts")
+                raise TooOftenException("Too much attempts")
             return None
         return result
 

@@ -7,7 +7,8 @@ from fake_useragent import UserAgent
 from seleniumwire import webdriver
 
 from notification import notify
-from limit_exception import LimitException
+from exception import LimitException
+from exception import TooOftenException
 
 
 def firefox_driver():
@@ -62,8 +63,12 @@ def mine():
             cnt += 1
     except LimitException:
         print("Error happened:" + traceback.format_exc())
+    except TooOftenException:
+        print("Error happened:" + traceback.format_exc())
+        time.sleep(60 * 45)
     except Exception:
-        driver.maximize_window()
+        if driver is not None:
+            driver.maximize_window()
         time.sleep(90)
         print("Error happened:" + traceback.format_exc())
         notify(title='Terminer',
