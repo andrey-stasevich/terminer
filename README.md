@@ -19,6 +19,7 @@ You can minimize these settings if you have rotating proxy - you can specify `PR
 
 ## Installation
 ```
+brew install firefox
 brew install terminal-notifier
 brew install geckodriver
 
