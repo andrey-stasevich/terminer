@@ -21,9 +21,12 @@ def load_config():
 def firefox_driver():
     ua = UserAgent()
     profile = Options()
+
     random_ua = ua.random
     print("User-agent:" + random_ua)
     profile.set_preference("general.useragent.override", random_ua)
+    profile.add_argument("--no-sandbox")
+    profile.add_argument("--ignore-certificate-errors")
 
     options = {
         # 'proxy': {
@@ -46,9 +49,10 @@ def mine():
         user_config = config['user']
 
         driver = firefox_driver()
-        driver.minimize_window()
+        # driver.minimize_window()
 
-        driver.get(config['termin_url'])
+        url = config['termin_url']
+        driver.get(url)
         prsr = parser.Parser(driver)
         prsr.start()
         print("starting...")

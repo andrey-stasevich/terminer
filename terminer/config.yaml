@@ -9,6 +9,6 @@ app:
   min_refresh_time: 10 #sec
   max_refresh_time: 30 #sec
   min_refresh_count: 15
-  max_refresh_count: 25
+  max_refresh_count: 100
 
   proxy_url: 'host:port'
