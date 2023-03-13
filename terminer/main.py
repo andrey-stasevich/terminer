@@ -6,6 +6,7 @@ import yaml
 
 from fake_useragent import UserAgent
 from seleniumwire import webdriver
+from selenium.webdriver.firefox.options import Options
 
 from notification import notify
 from exception import LimitException
@@ -19,11 +20,10 @@ def load_config():
 
 def firefox_driver():
     ua = UserAgent()
-    profile = webdriver.FirefoxProfile()
+    profile = Options()
     random_ua = ua.random
     print("User-agent:" + random_ua)
     profile.set_preference("general.useragent.override", random_ua)
-    profile.update_preferences()
 
     options = {
         # 'proxy': {
@@ -31,7 +31,7 @@ def firefox_driver():
         # }
     }
 
-    driver = webdriver.Firefox(firefox_profile=profile,
+    driver = webdriver.Firefox(options=profile,
                                seleniumwire_options=options)
     driver.set_script_timeout(3)
     driver.delete_all_cookies()
@@ -45,13 +45,13 @@ def mine():
         app_config = config['app']
         user_config = config['user']
 
-        driver = None
         driver = firefox_driver()
         driver.minimize_window()
 
         driver.get(config['termin_url'])
         prsr = parser.Parser(driver)
         prsr.start()
+        print("starting...")
         while True:
             print("Counter: " + str(cnt))
             if cnt > random.randrange(app_config['min_refresh_count'], app_config['max_refresh_time']):
@@ -69,17 +69,19 @@ def mine():
                 prsr.get_termin()
                 time.sleep(60)
                 break
-            time.sleep(random.randint(app_config['min_refresh_time'], app_config['max_refresh_time']))
+            sleep_time = random.randint(app_config['min_refresh_time'], app_config['max_refresh_time'])
+            print("Sleeping for " + str(sleep_time) + " seconds")
+            time.sleep(sleep_time)
             cnt += 1
     except LimitException:
         print("Error happened:" + traceback.format_exc())
     except TooOftenException:
         print("Error happened:" + traceback.format_exc())
-        time.sleep(60 * 45)
+        time.sleep(60 * 30)
     except Exception:
         if driver is not None:
             driver.maximize_window()
-        time.sleep(90)
+        time.sleep(10)
         print("Error happened:" + traceback.format_exc())
         notify(title='Terminer',
                subtitle='Termin available but error happened!',

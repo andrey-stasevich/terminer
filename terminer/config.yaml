@@ -1,4 +1,4 @@
-termin_url: 'https://service.berlin.de/dienstleistung/327537/'
+termin_url: 'https://service.berlin.de/terminvereinbarung/termin/tag.php?id=3061&anliegen[]=120691#&termin=1&dienstleister=327437&anliegen[]=120691&herkunft=1'
 
 user:
   email: UserEmail
@@ -6,8 +6,8 @@ user:
   phone: +4900000000000
 
 app:
-  min_refresh_time: 60 #sec
-  max_refresh_time: 80 #sec
+  min_refresh_time: 10 #sec
+  max_refresh_time: 30 #sec
   min_refresh_count: 15
   max_refresh_count: 25
 

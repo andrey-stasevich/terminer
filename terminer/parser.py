@@ -1,5 +1,6 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
 from exception import LimitException
 from exception import TooOftenException
 
@@ -29,7 +30,7 @@ class Parser:
     def click_first_timeslot(self):
         print("Clicking first available timesolt")
         self.random_sleep()
-        self.driver.find_element_by_css_selector('.timetable > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > a').click()
+        self.driver.find_element(By.CSS_SELECTOR, '.timetable > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > a').click()
         print("Clicked!")
 
     def update_page(self):
@@ -37,33 +38,33 @@ class Parser:
         self.driver.refresh()
 
     def click_button_to_termin(self):
-        print("Click button to termin calendar...")
-        self.driver.find_element_by_css_selector('a.btn').click()
+        # print("Click button to termin calendar...")
+        # self.driver.find_element(By.CSS_SELECTOR,'a.btn').click()
         self.random_sleep()
 
     def fill_in_data(self, name, email, phone):
         print("Filling in the data...")
-        name_fld = self.driver.find_element_by_css_selector('#familyName')
-        mail_fld = self.driver.find_element_by_css_selector('#email')
-        phne_fld = self.driver.find_element_by_css_selector('#telephone')
+        name_fld = self.driver.find_element(By.CSS_SELECTOR,'#familyName')
+        mail_fld = self.driver.find_element(By.CSS_SELECTOR,'#email')
+        phne_fld = self.driver.find_element(By.CSS_SELECTOR,'#telephone')
         name_fld.send_keys(name)
         mail_fld.send_keys(email)
         phne_fld.send_keys(phone)
 
     def agree_on_terms(self):
         print("Agreeing on the terms and condition...")
-        self.driver.find_element_by_css_selector('#agbgelesen').click()
-        Select(self.driver.find_element_by_css_selector('select[name="surveyAccepted"]')).select_by_index(1)
+        self.driver.find_element(By.CSS_SELECTOR,'#agbgelesen').click()
+        Select(self.driver.find_element(By.CSS_SELECTOR,'select[name="surveyAccepted"]')).select_by_index(1)
         time.sleep(10)
 
     def get_termin(self):
-        self.driver.find_element_by_css_selector('#register_submit').click()
+        self.driver.find_element(By.CSS_SELECTOR,'#register_submit').click()
         print("You have a termin!")
 
     def first_available_date(self):
         try:
             print("Getting first available date...")
-            result = self.driver.find_element_by_css_selector('.calendar-month-table td.buchbar a')
+            result = self.driver.find_element(By.CSS_SELECTOR,'.calendar-month-table td.buchbar a')
         except NoSuchElementException:
             print("Not found...")
             if "Zu viele Zugriffe" in self.driver.page_source:

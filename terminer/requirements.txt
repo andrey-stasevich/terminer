@@ -1,0 +1,6 @@
+pyyaml
+ua-parser
+user-agents
+fake-useragent
+selenium
+selenium-wire
